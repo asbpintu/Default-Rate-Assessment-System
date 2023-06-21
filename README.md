@@ -76,14 +76,60 @@ columns_info = pd.read_csv('columns_description.csv')
 ```
 All csv files can be found in the [`data`](data) directory
 
-_Understanding some attributes:-_
+ `Understanding some attributes:-`
+ 
 ```js
 data['NAME_HOUSING_TYPE'].unique()
+```
+```js
+data['NAME_CONTRACT_TYPE'].unique()
+```
+```js
+data['NAME_EDUCATION_TYPE'].unique()
 ```
 ```js
 finacial_data = data[['AMT_INCOME_TOTAL' , 'AMT_CREDIT' , 'AMT_ANNUITY']]
 finacial_data.describe().T
 ```
-all code can be found in the [main.ipynb]() file.
+all code can be found in the [main.ipynb](main.ipynb) file.
+
++ **Checking null value and make dataframe will all attributes with null value (Checking the %)**
+
+```js
+null_col = data.isnull().any()
+```
+```js
+null_col_name = data.columns[null_col]
+null_col_name
+```
+```js
+len(data[null_col_name].columns)
+```
+```js
+null_data = data[null_col_name]
+# Making data frame containing columns with null values and percentage of null values
+null_per = pd.DataFrame(null_data.isnull().sum()/len(null_data)*100) . reset_index()
+null_per.columns = ['column_name','null_value_percentage']
+null_per
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
