@@ -113,9 +113,23 @@ null_per.columns = ['column_name','null_value_percentage']
 null_per
 ```
 
++ **Visualizing Null Value Percentage with a Point Plot**
+```js
+
+plt.figure(figsize = (15,6))
 
 
+plot = sns.pointplot(x = 'column_name' , y = 'null_value_percentage' , data = null_per , color = 'green')
+plt.title('Checking null value persentages of each columns by point plot')
 
+plt.xticks(rotation = 90 , fontsize = 8)
+
+plot.axhline(30 , ls='--' , color = 'red')
+
+plt.show()
+```
+
+![null value percentages]()
 
 
 
