@@ -129,7 +129,319 @@ plot.axhline(30 , ls='--' , color = 'red')
 plt.show()
 ```
 
-![null value percentages](image/null value % point plot.png)
+![null value percentages](image/null_per.png)
+
+ `Removing the attributes where more than 30% null values`
+
+```js
+null_per_30 = null_per[null_per['null_value_percentage'] >= 30]
+rm_col = null_per_30['column_name']
+data = data.drop(rm_col , axis = 1)
+```
+  
++ **Heat map to check the relation with target variable**
+
+  ```js
+#  EXT_SOURCE
+
+EXT_SOURCE_col_name = ['EXT_SOURCE_2','EXT_SOURCE_3']
+
+exs_df = data[EXT_SOURCE_col_name + ['TARGET']]
+   
+# Heat map
+plt.figure(figsize = (8,6))
+sns.heatmap(exs_df.corr(),annot = True,cmap ="RdYlGn")
+plt.show()
+  ```
+![EXT_SOURCE]()
+
+`From the above map 'there is no relation between EXT_SOURCE_2,EXT_SOURCE_3 and TARGET' so, we can remove them`
+```js
+data = data.drop(EXT_SOURCE_col_name , axis = 1)
+```
+
++ **Verifying the number of applicants to determine if they have submitted the necessary documents or not with Count Plot**
+```js
+# FLAG_DOCUMENTS
+flag_Doc_col_name = [ 'FLAG_DOCUMENT_2', 'FLAG_DOCUMENT_3','FLAG_DOCUMENT_4', 'FLAG_DOCUMENT_5', 
+                     'FLAG_DOCUMENT_6','FLAG_DOCUMENT_7', 'FLAG_DOCUMENT_8', 'FLAG_DOCUMENT_9',
+                     'FLAG_DOCUMENT_10', 'FLAG_DOCUMENT_11', 'FLAG_DOCUMENT_12','FLAG_DOCUMENT_13',
+                     'FLAG_DOCUMENT_14', 'FLAG_DOCUMENT_15','FLAG_DOCUMENT_16', 'FLAG_DOCUMENT_17', 
+                     'FLAG_DOCUMENT_18','FLAG_DOCUMENT_19', 'FLAG_DOCUMENT_20', 'FLAG_DOCUMENT_21']
+
+doc_df = data[flag_Doc_col_name + ['TARGET']]
+
+doc_df["TARGET"] = doc_df["TARGET"].replace({1:"Defaulter",0:"Repayer"})
+
+# Count Plot
+
+fig = plt.figure(figsize=(20,15))
+
+for i,j in itertools.zip_longest(flag_Doc_col_name,range(len(flag_Doc_col_name))):
+    plt.subplot(4,5,j+1)
+    ax = sns.countplot(x=doc_df[i],hue=doc_df["TARGET"],palette=["r","g"])
+    plt.yticks(fontsize=8)
+    plt.xlabel("")
+    plt.ylabel("")
+    plt.title(i)
+```
+![FLAG_DOCUMENT]()
+`We can remove the columns as approx all applicants did non submited any documents`
+```js
+data = data.drop(flag_Doc_col_name , axis = 1)
+```
+
++ **Again visualize the relationship between some attributes and target variable using a heatmap**
+```js
+  unnes_col_name = ['FLAG_MOBIL', 'FLAG_EMP_PHONE', 'FLAG_WORK_PHONE', 'FLAG_CONT_MOBILE',
+                  'FLAG_PHONE', 'FLAG_EMAIL', 'WEEKDAY_APPR_PROCESS_START', 'HOUR_APPR_PROCESS_START',
+                  'OBS_30_CNT_SOCIAL_CIRCLE', 'DEF_30_CNT_SOCIAL_CIRCLE', 'OBS_60_CNT_SOCIAL_CIRCLE',
+                  'DEF_60_CNT_SOCIAL_CIRCLE']
+unnes_df = data[unnes_col_name + ['TARGET']]
+
+plt.figure(figsize = (20,8))
+sns.heatmap(unnes_df.corr(),annot = True,cmap ="RdYlGn")
+plt.show()
+```
+![unnes]()
+`As there is no relation we can remove them`
+```js
+data = data.drop(unnes_col_name , axis = 1)
+```
++ **Converting negative(-ve) values days to positive(+ve) in some attributes**
+  
+```js
+days_col_name = ['DAYS_BIRTH','DAYS_EMPLOYED','DAYS_REGISTRATION','DAYS_ID_PUBLISH','DAYS_LAST_PHONE_CHANGE']
+
+for col in days_col_name:
+    data[col] = abs(data[col])
+```
++ **Converting some numerical valued columns to catetory**
+```js
+# AMT_INCOME_TOTAL
+data['AMT_INCOME_TOTAL'].head()
+index = [0,1,2,3,4,5,6,7,8,9,10,11]
+cata = ['0-100k','100K-200k', '200k-300k','300k-400k',
+        '400k-500k','500k-600k','600k-700k','700k-800k',
+        '800k-900k','900k-1M', '1M Above']
+data['AMT_INCOME_TOTAL'] = data['AMT_INCOME_TOTAL']/100000
+
+data['AMT_INCOME_RANGE']=pd.cut(data['AMT_INCOME_TOTAL'],index,labels=cata)
+
+# AMT_CREDIT
+data['AMT_CREDIT']=data['AMT_CREDIT']/100000
+
+index = [0,1,2,3,4,5,6,7,8,9,10,100]
+cata = ['0-100K','100K-200K', '200k-300k','300k-400k','400k-500k','500k-600k','600k-700k','700k-800k',
+       '800k-900k','900k-1M', '1M Above']
+
+data['AMT_CREDIT_RANGE']=pd.cut(data['AMT_CREDIT'],bins=index,labels=cata)
+
+# DAYS_BIRTH
+data['DAYS_BIRTH'] = round(data['DAYS_BIRTH']/365)
+
+data['DAYS_BIRTH'].head()
+index = [0,20,30,40,50,100]
+cata = ['0-20','20-30','30-40','40-50','50 above']
+data['AGE_GROUP']=pd.cut(data['DAYS_BIRTH'],index,labels=cata)
+
+# Creating catagories for YEARS_EMPLOYED
+
+data['DAYS_EMPLOYED'] = data['DAYS_EMPLOYED'] / 365
+index = [0,5,10,20,30,40,50,60]
+cata = ['0-5','5-10','10-20','20-30','30-40','40-50','50 above']
+
+data['YEARS_EMPLOYED']=pd.cut(data['DAYS_EMPLOYED'],index,labels=cata)
+```
+
++ **Converting some object and numerical data_type to category data_type**
+
+```js
+  #Convert Object and Numerical columns to Categorical Columns
+cate_col_name = ['NAME_CONTRACT_TYPE','CODE_GENDER','NAME_TYPE_SUITE','NAME_INCOME_TYPE',
+                 'NAME_EDUCATION_TYPE','NAME_FAMILY_STATUS','NAME_HOUSING_TYPE','ORGANIZATION_TYPE',
+                 'FLAG_OWN_CAR','FLAG_OWN_REALTY','LIVE_CITY_NOT_WORK_CITY','REG_CITY_NOT_LIVE_CITY',
+                 'REG_CITY_NOT_WORK_CITY','REG_REGION_NOT_WORK_REGION','LIVE_REGION_NOT_WORK_REGION',
+                 'REGION_RATING_CLIENT','REGION_RATING_CLIENT_W_CITY']
+
+for i in cate_col_name:
+    data[i] =pd.Categorical(data[i])
+```
++ **Null Value Treatment**
+
+```js
+# NAME_TYPE_SUITE
+data['NAME_TYPE_SUITE'].describe()
+data['NAME_TYPE_SUITE'].fillna(data['NAME_TYPE_SUITE'].mode()[0],inplace=True)
+
+#########
+amt = ['AMT_REQ_CREDIT_BUREAU_HOUR', 'AMT_REQ_CREDIT_BUREAU_DAY','AMT_REQ_CREDIT_BUREAU_WEEK','AMT_REQ_CREDIT_BUREAU_MON',
+         'AMT_REQ_CREDIT_BUREAU_QRT','AMT_REQ_CREDIT_BUREAU_YEAR']
+
+data[amt].describe().T
+for i in amt:
+    data[i].fillna(data[i].median(),inplace = True)
+
+# YEARS_EMPLOYED
+data['YEARS_EMPLOYED'].describe()
+data['YEARS_EMPLOYED'].fillna(data['YEARS_EMPLOYED'].mode()[0],inplace=True)
+
+# Numerical Clumns
+numeical = ['AMT_ANNUITY','AMT_GOODS_PRICE','CNT_FAM_MEMBERS']
+for i in numeical:
+    data[i].fillna(data[i].mean(),inplace = True)
+
+# Categorical Columns
+categorical = ['AMT_INCOME_RANGE','DAYS_LAST_PHONE_CHANGE']
+for i in categorical:
+    data[i].fillna(data[i].mode()[0],inplace = True)
+
+# Funal Check of Null Value
+data.isnull().any()
+```
++ **Identifying Outlayers**
+
+```js
+plt.figure(figsize=(22, 16))
+
+outlier_col = ['AMT_ANNUITY', 'AMT_INCOME_TOTAL', 'AMT_CREDIT', 'AMT_GOODS_PRICE',
+               'DAYS_EMPLOYED', 'CNT_CHILDREN', 'DAYS_BIRTH']
+
+for i, j in itertools.zip_longest(outlier_col, range(len(outlier_col))):
+    plt.subplot(2, 4, j + 1)
+    sns.boxplot(y=data[i])
+    plt.title(i)
+    plt.ylabel("")
+
+plt.tight_layout()
+plt.show()
+
+![outlayer]()
+
+```
+`Based on the current application data, it is evident that there are outliers present in the variables AMT_ANNUITY, AMT_CREDIT, AMT_GOODS_PRICE, and CNT_CHILDREN. Additionally, there is a significant number of outliers in the variable AMT_INCOME_TOTAL, indicating that some loan applicants have considerably higher incomes compared to others.`
+
+`Fortunately, the variable DAYS_BIRTH does not contain any outliers, indicating that the available data for this variable is reliable.`
+
+`However, the variable DAYS_EMPLOYED does exhibit outlier values around 350,000 days, which is equivalent to approximately 958 years. Such entries are clearly incorrect and must be erroneous.`
+
++ **Data Imbalancing**
+
+```js
+imbalance = data["TARGET"].value_counts().reset_index()
+# Bar Plot
+plt.figure(figsize=(8, 6))
+x = ['Repayer','Defaulter']
+y = imbalance["TARGET"]
+sns.barplot(x=x, y=y, palette=['y', 'cyan'])
+plt.xlabel("Loan Repayment Status")
+plt.ylabel("Count of Repayers & Defaulters")
+plt.title("Imbalance Plotting")
+plt.show()
+
+# Pie PLot
+plt.figure(figsize = (8,8))
+plt.pie(y , labels = x , autopct='%1.1f%%')
+plt.title("Imbalance Persentages with pie plot")
+plt.show()
+```
+![imBAR]()
+![imPIE]()
+
+`Ratios of imbalance in percentage with respect to Repayer and Defaulter datas are: 91.9 and 8.1`
+
+## 2. Exploratory Data Analysis (EDA):
+
++ **Creating function for plots to check the counts of Repayer and Defaulter , and Percentages of Defaulters among all catagories of the attribute**
+
+```js
+
+
+def ana_plot(col_name):
+    fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(15, 6), facecolor = 'lightgray')
+    ax1.set_facecolor(color="#FAF0E4")
+    ax2.set_facecolor(color="#ECF8F9")
+    
+    
+    df = data[[col_name,'TARGET']]
+    
+    def_df = df[df['TARGET']==1]
+    def_df_vc = def_df[col_name].value_counts(sort = False).reset_index()
+    def_df_vc.columns = [col_name,'Value']
+    
+    
+    sns.countplot(ax = ax1 ,x=col_name,data=df,hue="TARGET" , palette = ['Indigo','Maroon'])
+    ax1.legend(['Repayer', 'Defaulter'])
+    ax1.set_title('Counts of Repayer and Defaulter of : '+ col_name , color = '#2D033B')
+    ax1.set_xticklabels(ax1.get_xticklabels(), rotation=90)
+    
+
+    plt.pie(def_df_vc['Value'] , labels=def_df_vc[col_name], autopct='%1.0f%%',rotatelabels = True,
+            wedgeprops={'linewidth': 0.7, 'edgecolor': 'white'})
+    ax2.set_title('Defaulter % of : '+col_name , color = '#D21312')
+
+    plt.show()
+```
+
+
+
++ **CODE_GENDER**
+```js
+ana_plot('CODE_GENDER')
+```
+![CODE_GENDER]()
+`We can see from the graph Female takes more loans and also they have higher percentages of default rate than Men.`
+
++ **AGE_GROUP**
+```js
+ana_plot('AGE_GROUP')
+```
+![AGE_GROUP]()
+`Between age 0 to 20 takes no loan, The highest amount of default rate are made by the age group 30-40, 
+The age group above 50 have very less default rate that is 23%, 
+Wecan clearly see that approx 67% of default are comes from age between 20-50.`
+
+
++ **YEARS_EMPLOYED**
+```js
+ana_plot('YEARS_EMPLOYED')
+```
+![YEARS_EMPLOYED]()
+`We can say that there is a decreasing order of taking loans with increasing years of job experience.`
+`And 0 to 5 years of experience have higher default rate that is 70%`
+
+
++ **NAME_EDUCATION_TYPE**
+```js
+ana_plot('NAME_EDUCATION_TYPE')
+```
+![NAME_EDUCATION_TYPE]()
+`Persons under Secondary or secondary special takes more loas and have highest default rate i.e 79%`
+
+
++ **FLAG_OWN_REALTY**
+```js
+ana_plot('FLAG_OWN_REALTY')
+```
+![FLAG_OWN_REALTY]()
+
+
++ **NAME_FAMILY_STATUS**
+```js
+ana_plot('NAME_FAMILY_STATUS')
+```
+![NAME_FAMILY_STATUS]()
+`Married persons takes more loan and have highest default rate of 60%`
+
+
+
+
+
+
+
+
+
+
 
 
 
