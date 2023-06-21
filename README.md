@@ -315,10 +315,9 @@ for i, j in itertools.zip_longest(outlier_col, range(len(outlier_col))):
 
 plt.tight_layout()
 plt.show()
-
+```
 ![outlayer]()
 
-```
 `Based on the current application data, it is evident that there are outliers present in the variables AMT_ANNUITY, AMT_CREDIT, AMT_GOODS_PRICE, and CNT_CHILDREN. Additionally, there is a significant number of outliers in the variable AMT_INCOME_TOTAL, indicating that some loan applicants have considerably higher incomes compared to others.`
 
 `Fortunately, the variable DAYS_BIRTH does not contain any outliers, indicating that the available data for this variable is reliable.`
