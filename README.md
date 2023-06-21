@@ -76,6 +76,14 @@ columns_info = pd.read_csv('columns_description.csv')
 ```
 All csv files can be found in the [`data`](data) directory
 
-
+_Understanding some attributes:-_
+```js
+data['NAME_HOUSING_TYPE'].unique()
+```
+```js
+finacial_data = data[['AMT_INCOME_TOTAL' , 'AMT_CREDIT' , 'AMT_ANNUITY']]
+finacial_data.describe().T
+```
+all code can be found in the [main.ipynb]() file.
 
 
