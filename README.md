@@ -16,7 +16,7 @@ On the other hand, if an applicant is not likely to repay the loan, approving th
 _The following data provides information regarding the loan application at the time of submission._
 
 ## Dataset
-The analysis is performed on a publicly available dataset obtained from  Bank. The dataset contains information about loan applicants, including their demographic data, financial history, and loan application details. The dataset is stored in the file `loan_applicants_details.csv`, which can be found in the `data` directory.
+The analysis is performed on a publicly available dataset obtained from  Bank. The dataset contains information about loan applicants, including their demographic data, financial history, and loan application details. The dataset is stored in the file `loan_applicants_details.csv`, which can be found in the [`data`](data) directory.
 
 ## Requirements
 To run the analysis, you need the following dependencies:
