@@ -129,7 +129,7 @@ plot.axhline(30 , ls='--' , color = 'red')
 plt.show()
 ```
 
-![null value percentages]()
+![null value percentages](image/null value % point plot.png)
 
 
 
