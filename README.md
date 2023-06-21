@@ -435,21 +435,88 @@ ana_plot('NAME_FAMILY_STATUS')
 
 
 
++ **Creating function for plots to check the counts of Repayer and Defaulter , and Percentages of Defaulters among all numerical attribute**
+
+```js
+def num_plot(col_name):
+    
+    df = data[[col_name,'TARGET']]
+    
+    def_df = df[df['TARGET']==1]
+    rep_df = df[df['TARGET']==0]
+    
+    
+    sns.distplot(def_df[col_name], hist=False, color='r',label ="Defaulter")
+    sns.distplot(rep_df[col_name], hist=False, color='g', label ="Repayer")
+    plt.show()
+```
+
++ **AMT_INCOME_TOTAL**
+```js
+num_plot('AMT_INCOME_TOTAL')
+```
+![AMT_INCOME_TOTAL]()
 
 
++ **AMT_CREDIT**
+```js
+num_plot('AMT_CREDIT')
+```
+![AMT_CREDIT]()
 
 
++ **AMT_GOODS_PRICE**
+```js
+num_plot('AMT_GOODS_PRICE')
+```
+![AMT_GOODS_PRICE]()
 
 
+### INSIGHTS
+
+1. When the credit amount exceeds 3 million, there is an observed increase in the number of defaulters.
+
+2. Individuals obtaining loans in the range of 300,000 to 600,000 tend to have a higher default rate 
+   compared to other credit ranges, suggesting the need for higher interest rates specifically for this credit range.
+
+3. Since the majority (90%) of loan applicants have a total income of less than 300,000, 
+   and they exhibit a higher likelihood of defaulting, offering loans to this income category with higher interest rates
+   could be considered.
+
+### SAFER SIDE
+
+1. NAME_EDUCATION_TYPE: Individuals with higher academic degrees exhibit a lower default rate.
+
+2. NAME_INCOME_TYPE: Students and businessmen demonstrate a negligible default rate.
+
+3. REGION_RATING_CLIENT: Clients residing in regions with a RATING 1 are associated with a higher level of safety in terms of      loan defaults.
+
+4. ORGANIZATION_TYPE: Clients engaged in Trade Type 4 and 5 and Industry Type 8 have a default rate of less than 3%.
+
+5. AGE_GROUP: Individuals above the age of 50 are less likely to default on their loans.
+
+6. YEARS_EMPLOYED: Clients with 40+ years of work experience exhibit a default rate of less than 1%.
+
+7. CNT_CHILDREN: Individuals with zero to two children tend to have a higher repayment rate for loans.
 
 
+### DEFAULTERS
 
+1. CODE_GENDER: Women tend to have a relatively higher default rate.
 
+2. NAME_FAMILY_STATUS: Individuals who are married, in a civil partnership, or single have a higher likelihood of defaulting.
 
+3. NAME_EDUCATION_TYPE: Individuals with a secondary or secondary special education background are more prone to defaulting.
 
+4. NAME_INCOME_TYPE: Clients who are workers or commercial associates have a higher default rate.
 
+5. REGION_RATING_CLIENT: People residing in regions with a rating of 2 exhibit the highest default rates.
 
+6. ORGANIZATION_TYPE: Business entity type 3 and self-employed individuals have the highest percentage of loans not repaid.
 
+7. AGE_GROUP: It is advisable to be cautious with young individuals in the age group of 20-40 as they have a higher probability of defaulting.
+
+8. YEARS_EMPLOYED: Individuals with less than 5 years of employment experience are more likely to default on their loans.
 
 
 
