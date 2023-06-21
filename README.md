@@ -74,7 +74,7 @@ data = root.copy()
 
 columns_info = pd.read_csv('columns_description.csv')
 ```
-All csv files can be found in the `data` directory
+All csv files can be found in the [`data`](data) directory
 
 
 
