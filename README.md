@@ -141,7 +141,7 @@ data = data.drop(rm_col , axis = 1)
   
 + **Heat map to check the relation with target variable**
 
-  ```js
+```js
 #  EXT_SOURCE
 
 EXT_SOURCE_col_name = ['EXT_SOURCE_2','EXT_SOURCE_3']
@@ -152,7 +152,7 @@ exs_df = data[EXT_SOURCE_col_name + ['TARGET']]
 plt.figure(figsize = (8,6))
 sns.heatmap(exs_df.corr(),annot = True,cmap ="RdYlGn")
 plt.show()
-  ```
+```
 ![EXT_SOURCE]()
 
 `From the above map 'there is no relation between EXT_SOURCE_2,EXT_SOURCE_3 and TARGET' so, we can remove them`
