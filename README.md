@@ -160,7 +160,7 @@ plt.show()
 data = data.drop(EXT_SOURCE_col_name , axis = 1)
 ```
 
-+ **Verifying the number of applicants to determine if they have submitted the necessary documents or not with Count Plot**
++ **Visualizing  the number of applicants to determine if they have submitted the necessary documents or not with Count Plot**
 ```js
 # FLAG_DOCUMENTS
 flag_Doc_col_name = [ 'FLAG_DOCUMENT_2', 'FLAG_DOCUMENT_3','FLAG_DOCUMENT_4', 'FLAG_DOCUMENT_5', 
