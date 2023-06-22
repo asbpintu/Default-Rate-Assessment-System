@@ -21,23 +21,23 @@ The analysis is performed on a publicly available dataset obtained from  Bank. T
 ## Requirements
 To run the analysis, you need the following dependencies:
 
-+ Python 3.7 or higher
-+ Jupyter Notebook or JupyterLab
-+ Required Python libraries: pandas, numpy, matplotlib, seaborn, scikit-learn
++ ***Python 3.7 or higher***
++ ***Jupyter Notebook or JupyterLab***
++ ***Required Python libraries: pandas, numpy, matplotlib, seaborn, scikit-learn***
 
 ## Analysis Steps
 
-**1. Data Preprocessing:** The dataset is explored and cleaned to handle missing values, outliers, and any inconsistencies. Feature engineering techniques are applied to extract relevant information from the available features.
+1. **Data Preprocessing:** The dataset is explored and cleaned to handle missing values, outliers, and any inconsistencies. Feature engineering techniques are applied to extract relevant information from the available features.
 
-**2. Exploratory Data Analysis (EDA):** Various visualizations and statistical analyses are performed to gain insights into the dataset. The relationships between different features and the target variable (default or non-default) are explored to identify any patterns or trends.
+2. **Exploratory Data Analysis (EDA):** Various visualizations and statistical analyses are performed to gain insights into the dataset. The relationships between different features and the target variable (default or non-default) are explored to identify any patterns or trends.
 
-**3. Feature Selection:** Statistical tests, correlation analysis, and domain knowledge are used to select the most relevant features for training the predictive model. Feature importance is determined using techniques such as feature ranking or feature importance scores.
+3. **Feature Selection:** Statistical tests, correlation analysis, and domain knowledge are used to select the most relevant features for training the predictive model. Feature importance is determined using techniques such as feature ranking or feature importance scores.
 
-**4. Model Development:** Several machine learning models are trained using the preprocessed dataset. Different algorithms such as logistic regression, decision   trees, random forests, and gradient boosting are implemented to compare their performance. Cross-validation techniques are employed to evaluate the models and    select the best performing one.
+4. **Model Development:** Several machine learning models are trained using the preprocessed dataset. Different algorithms such as logistic regression, decision   trees, random forests, and gradient boosting are implemented to compare their performance. Cross-validation techniques are employed to evaluate the models and    select the best performing one.
 
-**5. Model Evaluation:** The selected model is evaluated using various evaluation metrics such as accuracy, precision, recall, and F1-score. Additionally, a       confusion matrix is generated to analyze the performance in terms of true positives, false positives, true negatives, and false negatives.
+5. **Model Evaluation:** The selected model is evaluated using various evaluation metrics such as accuracy, precision, recall, and F1-score. Additionally, a       confusion matrix is generated to analyze the performance in terms of true positives, false positives, true negatives, and false negatives.
 
-**6. Model Deployment:** Once the best performing model is identified, it is saved and deployed for future use. This can include integrating the model into a web  application or using it for real-time predictions.
+6. **Model Deployment:** Once the best performing model is identified, it is saved and deployed for future use. This can include integrating the model into a web  application or using it for real-time predictions.
 
 
 ## 1. Data Preprocessing:
@@ -74,9 +74,9 @@ data = root.copy()
 
 columns_info = pd.read_csv('columns_description.csv')
 ```
-All csv files can be found in the [`data`](data) directory
+***All csv files can be found in the [`data`](data) directory***
 
- `Understanding some attributes:-`
+ **`Understanding some attributes:-`**
  
 ```js
 data['NAME_HOUSING_TYPE'].unique()
@@ -91,7 +91,7 @@ data['NAME_EDUCATION_TYPE'].unique()
 finacial_data = data[['AMT_INCOME_TOTAL' , 'AMT_CREDIT' , 'AMT_ANNUITY']]
 finacial_data.describe().T
 ```
-all code can be found in the [main.ipynb](main.ipynb) file.
+***all code can be found in the [main.ipynb](main.ipynb) file.***
 
 + **Checking null value and make dataframe will all attributes with null value (Checking the %)**
 
@@ -153,7 +153,7 @@ plt.figure(figsize = (8,6))
 sns.heatmap(exs_df.corr(),annot = True,cmap ="RdYlGn")
 plt.show()
 ```
-![EXT_SOURCE]()
+![EXT_SOURCE](image/ext.png)
 
 `From the above map 'there is no relation between EXT_SOURCE_2,EXT_SOURCE_3 and TARGET' so, we can remove them`
 ```js
@@ -185,7 +185,7 @@ for i,j in itertools.zip_longest(flag_Doc_col_name,range(len(flag_Doc_col_name))
     plt.ylabel("")
     plt.title(i)
 ```
-![FLAG_DOCUMENT]()
+![FLAG_DOCUMENT](image/doc.png)
 `We can remove the columns as approx all applicants did non submited any documents`
 ```js
 data = data.drop(flag_Doc_col_name , axis = 1)
@@ -203,7 +203,7 @@ plt.figure(figsize = (20,8))
 sns.heatmap(unnes_df.corr(),annot = True,cmap ="RdYlGn")
 plt.show()
 ```
-![unnes]()
+![unnes](image/unnes.png)
 `As there is no relation we can remove them`
 ```js
 data = data.drop(unnes_col_name , axis = 1)
@@ -316,7 +316,7 @@ for i, j in itertools.zip_longest(outlier_col, range(len(outlier_col))):
 plt.tight_layout()
 plt.show()
 ```
-![outlayer]()
+![outlayer](image/outlayer.png)
 
 `Based on the current application data, it is evident that there are outliers present in the variables AMT_ANNUITY, AMT_CREDIT, AMT_GOODS_PRICE, and CNT_CHILDREN. Additionally, there is a significant number of outliers in the variable AMT_INCOME_TOTAL, indicating that some loan applicants have considerably higher incomes compared to others.`
 
@@ -344,8 +344,8 @@ plt.pie(y , labels = x , autopct='%1.1f%%')
 plt.title("Imbalance Persentages with pie plot")
 plt.show()
 ```
-![imBAR]()
-![imPIE]()
+![imBAR](image/imbar.png)
+![imPIE](image/impie.png)
 
 `Ratios of imbalance in percentage with respect to Repayer and Defaulter datas are: 91.9 and 8.1`
 
@@ -388,14 +388,14 @@ def ana_plot(col_name):
 ```js
 ana_plot('CODE_GENDER')
 ```
-![CODE_GENDER]()
+![CODE_GENDER](image/analysis/CODE_GENDER.png)
 `We can see from the graph Female takes more loans and also they have higher percentages of default rate than Men.`
 
 + **AGE_GROUP**
 ```js
 ana_plot('AGE_GROUP')
 ```
-![AGE_GROUP]()
+![AGE_GROUP](image/analysis/AGE_GROUP.png)
 `Between age 0 to 20 takes no loan, The highest amount of default rate are made by the age group 30-40, 
 The age group above 50 have very less default rate that is 23%, 
 Wecan clearly see that approx 67% of default are comes from age between 20-50.`
@@ -405,7 +405,7 @@ Wecan clearly see that approx 67% of default are comes from age between 20-50.`
 ```js
 ana_plot('YEARS_EMPLOYED')
 ```
-![YEARS_EMPLOYED]()
+![YEARS_EMPLOYED](image/analysis/YEARS_EMPLOYED.png)
 `We can say that there is a decreasing order of taking loans with increasing years of job experience.`
 `And 0 to 5 years of experience have higher default rate that is 70%`
 
@@ -414,7 +414,7 @@ ana_plot('YEARS_EMPLOYED')
 ```js
 ana_plot('NAME_EDUCATION_TYPE')
 ```
-![NAME_EDUCATION_TYPE]()
+![NAME_EDUCATION_TYPE](image/analysis/NAME_EDUCATION_TYPE.png)
 `Persons under Secondary or secondary special takes more loas and have highest default rate i.e 79%`
 
 
@@ -422,14 +422,14 @@ ana_plot('NAME_EDUCATION_TYPE')
 ```js
 ana_plot('FLAG_OWN_REALTY')
 ```
-![FLAG_OWN_REALTY]()
+![FLAG_OWN_REALTY](image/analysis/FLAG_OWN_REALTY.png)
 
 
 + **NAME_FAMILY_STATUS**
 ```js
 ana_plot('NAME_FAMILY_STATUS')
 ```
-![NAME_FAMILY_STATUS]()
+![NAME_FAMILY_STATUS](image/analysis/NAME_FAMILY_STATUS.png)
 `Married persons takes more loan and have highest default rate of 60%`
 
 
@@ -454,68 +454,78 @@ def num_plot(col_name):
 ```js
 num_plot('AMT_INCOME_TOTAL')
 ```
-![AMT_INCOME_TOTAL]()
+![AMT_INCOME_TOTAL](image/analysis/AMT_INCOME_TOTAL.png)
 
 
 + **AMT_CREDIT**
 ```js
 num_plot('AMT_CREDIT')
 ```
-![AMT_CREDIT]()
+![AMT_CREDIT](image/analysis/AMT_CREDIT.png)
 
 
 + **AMT_GOODS_PRICE**
 ```js
 num_plot('AMT_GOODS_PRICE')
 ```
-![AMT_GOODS_PRICE]()
+![AMT_GOODS_PRICE](image/analysis/AMT_GOODS_PRICE.png)
 
+```
+IMPORTANT LINKS
+```
+${\color{orange}You\ can\ get\ ALL\ GRAPHS\ from\ }$ [image/analysis](image/analysis) ${\color{orange}directory.}$
+
+${\color{orange}All\ .CSV\ files\ can\ be\ found\ in\ }$[data](data) ${\color{orange}directory.}$
+
+${\color{orange}You\ can\ get\ OTHER\ GRAPHS\ from\ }$ [image](image) ${\color{orange}directory.}$
+
+${\color{orange}All\ CODES\ can\ be\ found\ in\ }$[main.ipynb](main.ipynb) ${\color{orange}file.}$
 
 ### INSIGHTS
 
-1. When the credit amount exceeds 3 million, there is an observed increase in the number of defaulters.
+1. When the credit amount **exceeds 3 million**, there is an observed increase in the number of defaulters.
 
-2. Individuals obtaining loans in the range of 300,000 to 600,000 tend to have a higher default rate 
+2. Individuals obtaining loans in the range of **300,000 to 600,000** tend to have a higher default rate 
    compared to other credit ranges, suggesting the need for higher interest rates specifically for this credit range.
 
-3. Since the majority (90%) of loan applicants have a total income of less than 300,000, 
+3. Since the majority **(90%)** of loan applicants have a total income of less than 300,000, 
    and they exhibit a higher likelihood of defaulting, offering loans to this income category with higher interest rates
    could be considered.
 
 ### SAFER SIDE
 
-1. NAME_EDUCATION_TYPE: Individuals with higher academic degrees exhibit a lower default rate.
+1. NAME_EDUCATION_TYPE: Individuals with **higher academic degrees** exhibit a lower default rate.
 
-2. NAME_INCOME_TYPE: Students and businessmen demonstrate a negligible default rate.
+2. NAME_INCOME_TYPE: **Students and businessmen** demonstrate a negligible default rate.
 
-3. REGION_RATING_CLIENT: Clients residing in regions with a RATING 1 are associated with a higher level of safety in terms of      loan defaults.
+3. REGION_RATING_CLIENT: Clients residing in regions with a **RATING 1** are associated with a higher level of safety in terms of loan defaults.
 
-4. ORGANIZATION_TYPE: Clients engaged in Trade Type 4 and 5 and Industry Type 8 have a default rate of less than 3%.
+4. ORGANIZATION_TYPE: Clients engaged in **Trade Type 4 and 5 and Industry Type 8** have a default rate of less than 3%.
 
-5. AGE_GROUP: Individuals above the age of 50 are less likely to default on their loans.
+5. AGE_GROUP: Individuals **above the age of 50** are less likely to default on their loans.
 
-6. YEARS_EMPLOYED: Clients with 40+ years of work experience exhibit a default rate of less than 1%.
+6. YEARS_EMPLOYED: Clients with **40+ years** of work experience exhibit a default rate of less than 1%.
 
-7. CNT_CHILDREN: Individuals with zero to two children tend to have a higher repayment rate for loans.
+7. CNT_CHILDREN: Individuals with **zero to two children** tend to have a higher repayment rate for loans.
 
 
 ### DEFAULTERS
 
-1. CODE_GENDER: Women tend to have a relatively higher default rate.
+1. CODE_GENDER: **Women** tend to have a relatively higher default rate.
 
-2. NAME_FAMILY_STATUS: Individuals who are married, in a civil partnership, or single have a higher likelihood of defaulting.
+2. NAME_FAMILY_STATUS: Individuals who are **married, in a civil partnership, or single** have a higher likelihood of defaulting.
 
-3. NAME_EDUCATION_TYPE: Individuals with a secondary or secondary special education background are more prone to defaulting.
+3. NAME_EDUCATION_TYPE: Individuals with a **secondary or secondary special education background** are more prone to defaulting.
 
-4. NAME_INCOME_TYPE: Clients who are workers or commercial associates have a higher default rate.
+4. NAME_INCOME_TYPE: Clients who are **workers or commercial associates** have a higher default rate.
 
 5. REGION_RATING_CLIENT: People residing in regions with a rating of 2 exhibit the highest default rates.
 
-6. ORGANIZATION_TYPE: Business entity type 3 and self-employed individuals have the highest percentage of loans not repaid.
+6. ORGANIZATION_TYPE: **Business entity type 3 and self-employed individuals** have the highest percentage of loans not repaid.
 
-7. AGE_GROUP: It is advisable to be cautious with young individuals in the age group of 20-40 as they have a higher probability of defaulting.
+7. AGE_GROUP: It is advisable to be cautious with young individuals in the **age group of 20-40** as they have a higher probability of defaulting.
 
-8. YEARS_EMPLOYED: Individuals with less than 5 years of employment experience are more likely to default on their loans.
+8. YEARS_EMPLOYED: Individuals with **less than 5 years of employment experience** are more likely to default on their loans.
 
 
 
